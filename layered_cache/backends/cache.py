@@ -1,9 +1,9 @@
 from django.core.cache.backends.base import DEFAULT_TIMEOUT, BaseCache
 from django.core.cache imports caches
 
-class FallThroughCache(BaseCache):
+class LayeredCache(BaseCache):
     def __init__(self, params):
-        super(FallThroughCache, self).__init__(params)
+        super(LayeredCache, self).__init__(params)
         self.levels = params.get('levels', params.get('LEVELS', []))
 
     def _get_underlying_cache(self, name):

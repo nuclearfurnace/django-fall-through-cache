@@ -1,13 +1,13 @@
 from setuptools import setup
 
 setup(
-    name="django-fall-through-cache",
-    url="http://github.com/nuclearfurnace/django-fall-through-cache/",
+    name="django-layered-cache",
+    url="http://github.com/nuclearfurnace/django-layered-cache/",
     author="Toby Lawrence",
     author_email="toby@nuclearfurnace.com",
     version="1.6.5",
-    packages=["fall_through_cache", "fall_through_cache.backends"],
-    description="Fall Through Cache Backend for Django",
+    packages=["layered_cache", "layered_cache.backends"],
+    description="Coherent, Layered Cache Backend for Django",
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",
