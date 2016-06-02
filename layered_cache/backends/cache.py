@@ -1,10 +1,14 @@
 from django.core.cache.backends.base import DEFAULT_TIMEOUT, BaseCache
-from django.core.cache imports caches
+from django.core.cache import caches
+from django.core.exceptions import ImproperlyConfigured
+
 
 class LayeredCache(BaseCache):
-    def __init__(self, params):
+    def __init__(self, name, params):
         super(LayeredCache, self).__init__(params)
         self.levels = params.get('levels', params.get('LEVELS', []))
+        if len(self.levels) == 0:
+          raise ImproperlyConfigured("no levels configured for '{}'".format(name))
 
     def _get_underlying_cache(self, name):
         """
@@ -68,7 +72,7 @@ class LayeredCache(BaseCache):
         """
         for level in self.levels:
             underlying_cache = self._get_underlying_cache(level)
-            underlying_cache.delete(key, version=version):
+            underlying_cache.delete(key, version=version)
 
     def has_key(self, key, version=None):
         """
