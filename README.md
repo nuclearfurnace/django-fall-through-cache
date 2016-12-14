@@ -6,3 +6,12 @@ Provides a way to specify a single cache that is actually a hierarchy of underly
 
 - using an in-memory cache to support high throughput of cache operations within a request, while distributing the cached results for other workers to take advantage of
 - having a small, distributed, in-memory cache that holds the hottest items, while warmer items can be served out of a larger, local disk-based cache
+
+
+# Running tests
+
+```
+make test
+```
+
+NOTE: This will `pip install` requirements as well as run the tests in the example app.
