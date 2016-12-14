@@ -43,12 +43,13 @@ class LayeredCache(BaseCache):
 
         All configured cache levels will be checked in order, first to last.
         """
-        for level in self.levels:
+        for index, level in enumerate(self.levels):
             underlying_cache = self._get_underlying_cache(level)
             result = underlying_cache.get(key, version=version)
             if result is not None:
+                if index > 0:
+                    self._get_underlying_cache(self.levels[0]).set(key, result)
                 return result
-
         return default
 
     def set(self, key, value, timeout=DEFAULT_TIMEOUT, version=None):

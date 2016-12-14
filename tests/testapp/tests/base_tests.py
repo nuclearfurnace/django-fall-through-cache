@@ -39,6 +39,28 @@ def clear_caches(cache_names):
 
 class BaseLayeredCacheTestCase(TestCase):
     @clear_caches(SIMPLE_CACHES)
+    def test_get_after_miss_stores_in_first_layer(self):
+        """
+        Test that after a "miss" on the initial layer, a subsequent "hit" will
+        set the initial layer's cache value. This will make new cache requests
+        hit on the first layer instead of still going to the second.
+        """
+        coherent_cache = get_cache('simple_layered')
+        first_layer = get_cache('simple_in_mem')
+        second_layer = get_cache('simple_shared_mem')
+
+        second_layer.set("some_key_not_in_first_layer", 1)
+
+        self.assertEquals(coherent_cache.get("some_key_not_in_first_layer"), 1)
+
+        # Now we change the value in the second layer, the first layer should
+        # return 1
+        second_layer.set("some_key_not_in_first_layer", 2)
+
+        # Returning value from first layer now, second layer not hit!
+        self.assertEquals(coherent_cache.get("some_key_not_in_first_layer"), 1)
+
+    @clear_caches(SIMPLE_CACHES)
     def test_simple_set(self):
         """
         Simple test to make sure we can set/get.
